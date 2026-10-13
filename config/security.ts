@@ -14,7 +14,7 @@ export const security = {
       "require-trusted-types-for 'script'",
       "trusted-types 'none'",
     ],
-    scriptDirective: { resources: ["'self'", "'wasm-unsafe-eval'"] },
+    scriptDirective: { resources: ["'self'"] },
     styleDirective: { resources: ["'self'", "'unsafe-inline'"] },
   },
 } satisfies AstroUserConfig["security"];
