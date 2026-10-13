@@ -1,0 +1,56 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import Button from "~/components/Button.astro";
+import EuropeMap from "~/components/EuropeMap.astro";
+import Section from "~/components/Section.astro";
+import SectionActions from "~/components/SectionActions.astro";
+import SectionContent from "~/components/SectionContent.astro";
+import SectionHeader from "~/components/SectionHeader.astro";
+import SectionTitle from "~/components/SectionTitle.astro";
+import { getLocale } from "~/i18n";
+
+type Props = HTMLAttributes<"section">;
+
+const { class: className, ...attrs } = Astro.props;
+
+const copy = {
+  en: {
+    title: "Built on European companies",
+    text: "Hosting, content, email and spam protection for this site come from companies in the EU, so an American company cannot switch it off. A few links are still American, and I am working on those.",
+    label: "How and why",
+    href: "/en/european-sovereignty",
+  },
+  nl: {
+    title: "Gebouwd op Europese bedrijven",
+    text: "Hosting, content, e-mail en spambescherming van deze site komen van bedrijven in de EU, zodat een Amerikaans bedrijf hem niet kan uitzetten. Een paar schakels zijn nog Amerikaans, daar werk ik aan.",
+    label: "Hoe en waarom",
+    href: "/nl/europese-soevereiniteit",
+  },
+}[getLocale()];
+
+const titleId = `sovereignty-${crypto.randomUUID()}`;
+---
+
+<Section class:list={["sovereignty", className]} aria-labelledby={titleId} {...attrs}>
+  <EuropeMap class="sovereignty__map" aria-hidden="true" />
+  <SectionHeader>
+    <SectionTitle id={titleId}>{copy.title}</SectionTitle>
+  </SectionHeader>
+  <SectionContent>
+    <p class="sovereignty__text">{copy.text}</p>
+  </SectionContent>
+  <SectionActions>
+    <Button as="a" href={copy.href}>{copy.label}</Button>
+  </SectionActions>
+</Section>
+
+<style>
+  .sovereignty__map {
+    max-inline-size: 20rem;
+    margin-inline: auto;
+  }
+
+  .sovereignty__text {
+    margin: 0;
+  }
+</style>

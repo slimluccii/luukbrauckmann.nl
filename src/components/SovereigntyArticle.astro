@@ -1,0 +1,212 @@
+---
+import Base from "~/layouts/Base.astro";
+import Border from "~/components/Border.astro";
+import EuropeMap from "~/components/EuropeMap.astro";
+import PageHeader from "~/components/PageHeader.astro";
+import PageHeaderEyebrow from "~/components/PageHeaderEyebrow.astro";
+import Section from "~/components/Section.astro";
+import SectionContent from "~/components/SectionContent.astro";
+import SectionHeader from "~/components/SectionHeader.astro";
+import SectionTitle from "~/components/SectionTitle.astro";
+import { exceptions, services } from "~/data/services";
+import { getLocale } from "~/i18n";
+
+const locale = getLocale();
+
+const copy = {
+  en: {
+    eyebrow: "Digital sovereignty",
+    title: "Built on European companies",
+    intro:
+      "The services this site runs on come from companies in the EU, so a sanction list or a policy change in the United States cannot take it offline. Where that is not true yet, it says so below.",
+    mapLabel: "Map of Europe with the location of each company",
+    servicesTitle: "Who runs what",
+    company: "Company",
+    runsOn: "Runs on",
+    exceptionsTitle: "What an American company could still switch off",
+    exceptionsIntro:
+      "Not everything is European yet. These are the links I know of, and what would happen if they were cut.",
+    leftOutTitle: "What I left out",
+    leftOut: [
+      "No analytics and no trackers.",
+      "No fonts, scripts or images from third parties, except DatoCMS images and the Friendly Captcha widget.",
+      "A strict Content Security Policy that only allows what is listed here.",
+    ],
+  },
+  nl: {
+    eyebrow: "Digitale soevereiniteit",
+    title: "Gebouwd op Europese bedrijven",
+    intro:
+      "De diensten waar deze site op draait, komen van bedrijven in de EU, zodat een sanctielijst of een beleidswijziging in de Verenigde Staten hem niet offline kan halen. Waar dat nog niet klopt, staat het hieronder.",
+    mapLabel: "Kaart van Europa met de vestiging van elk bedrijf",
+    servicesTitle: "Wie wat doet",
+    company: "Bedrijf",
+    runsOn: "Draait op",
+    exceptionsTitle: "Wat een Amerikaans bedrijf nog kan uitzetten",
+    exceptionsIntro:
+      "Nog niet alles is Europees. Dit zijn de schakels die ik ken, en wat er gebeurt als ze wegvallen.",
+    leftOutTitle: "Wat ik heb weggelaten",
+    leftOut: [
+      "Geen analytics en geen trackers.",
+      "Geen fonts, scripts of afbeeldingen van derden, behalve afbeeldingen van DatoCMS en de widget van Friendly Captcha.",
+      "Een strikte Content Security Policy die alleen toestaat wat hier staat.",
+    ],
+  },
+}[locale];
+
+const translations = [
+  { locale: "en", path: "/en/european-sovereignty" },
+  { locale: "nl", path: "/nl/europese-soevereiniteit" },
+];
+---
+
+<Base
+  locale={locale}
+  title={copy.title}
+  seoMetaTags={[{ tag: "title", content: copy.title }]}
+  translations={translations}
+>
+  <article class="sovereignty-article">
+    <PageHeader>
+      <PageHeaderEyebrow>{copy.eyebrow}</PageHeaderEyebrow>
+      <h1 class="sovereignty-article__title">{copy.title}</h1>
+      <p class="sovereignty-article__intro">{copy.intro}</p>
+    </PageHeader>
+
+    <EuropeMap class="sovereignty-article__map" labels role="img" aria-label={copy.mapLabel} />
+
+    <Border>
+      <Section>
+        <SectionHeader>
+          <SectionTitle>{copy.servicesTitle}</SectionTitle>
+        </SectionHeader>
+        <SectionContent>
+          <ul class="sovereignty-article__list">
+            {
+              services.map((service) => (
+                <li class="sovereignty-article__item">
+                  <h3 class="sovereignty-article__name">
+                    <a href={service.href}>{service.name}</a>
+                  </h3>
+                  <p class="sovereignty-article__role">{service.role[locale]}</p>
+                  <dl class="sovereignty-article__facts">
+                    <dt>{copy.company}</dt>
+                    <dd>{service.company}, {service.place[locale]}</dd>
+                    <dt>{copy.runsOn}</dt>
+                    <dd>{service.runsOn[locale]}</dd>
+                  </dl>
+                </li>
+              ))
+            }
+          </ul>
+        </SectionContent>
+      </Section>
+    </Border>
+
+    <Border>
+      <Section>
+        <SectionHeader>
+          <SectionTitle>{copy.exceptionsTitle}</SectionTitle>
+        </SectionHeader>
+        <SectionContent>
+          <p class="sovereignty-article__paragraph">{copy.exceptionsIntro}</p>
+          <ul class="sovereignty-article__list">
+            {
+              exceptions.map((exception) => (
+                <li class="sovereignty-article__item">
+                  <h3 class="sovereignty-article__name">{exception.name}</h3>
+                  <p class="sovereignty-article__role">{exception.role[locale]}</p>
+                  <p class="sovereignty-article__paragraph">{exception.impact[locale]}</p>
+                </li>
+              ))
+            }
+          </ul>
+        </SectionContent>
+      </Section>
+    </Border>
+
+    <Border>
+      <Section>
+        <SectionHeader>
+          <SectionTitle>{copy.leftOutTitle}</SectionTitle>
+        </SectionHeader>
+        <SectionContent>
+          <ul class="sovereignty-article__bullets">
+            {copy.leftOut.map((item) => <li>{item}</li>)}
+          </ul>
+        </SectionContent>
+      </Section>
+    </Border>
+  </article>
+</Base>
+
+<style>
+  .sovereignty-article {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-size-l);
+  }
+
+  .sovereignty-article__title {
+    margin: 0;
+    font-size: var(--typography-scale-display);
+  }
+
+  .sovereignty-article__intro,
+  .sovereignty-article__paragraph,
+  .sovereignty-article__role {
+    margin: 0;
+  }
+
+  .sovereignty-article__map {
+    padding-inline: var(--spacing-size-l);
+  }
+
+  .sovereignty-article__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-size-s);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .sovereignty-article__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-size-xxs);
+    background-color: var(--color-surface-base);
+    padding: var(--spacing-size-m);
+  }
+
+  .sovereignty-article__name {
+    margin: 0;
+    font-family: var(--typography-typeface-body);
+    font-size: var(--typography-scale-subtitle);
+  }
+
+  .sovereignty-article__role {
+    opacity: var(--opacity-muted);
+  }
+
+  .sovereignty-article__facts {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--spacing-size-xxs) var(--spacing-size-s);
+    margin: var(--spacing-size-xs) 0 0;
+    font-size: var(--typography-scale-caption);
+
+    & dt {
+      opacity: var(--opacity-muted);
+    }
+
+    & dd {
+      margin: 0;
+    }
+  }
+
+  .sovereignty-article__bullets {
+    margin: 0;
+    padding-inline-start: var(--spacing-size-m);
+  }
+</style>
