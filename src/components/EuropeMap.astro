@@ -1,0 +1,93 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import outline from "~/data/europe-outline.json";
+import { bounds } from "~/data/europe-map";
+import { services } from "~/data/services";
+import { project } from "~/utils/mercator";
+
+type Props = HTMLAttributes<"svg"> & { labels?: boolean };
+
+const { labels = false, class: className, ...attrs } = Astro.props;
+const { width, height } = outline;
+
+const points = services.map((service) => ({
+  name: service.name,
+  ...project(service.coordinates, bounds, { width, height }),
+}));
+
+// Of two pins close together, the western one puts its label on the left so they do not overlap.
+const pins = points.map((pin) => ({
+  ...pin,
+  labelLeft: points.some(
+    (other) => other !== pin && other.x > pin.x && Math.hypot(other.x - pin.x, other.y - pin.y) < 150,
+  ),
+}));
+---
+
+<svg
+  class:list={["europe-map", { "europe-map--labels": labels }, className]}
+  viewBox={`0 0 ${width} ${height}`}
+  {...attrs}
+>
+  <path class="europe-map__land" d={outline.other} />
+  <path class="europe-map__eu" d={outline.eu} />
+  {
+    pins.map((pin) => (
+      <g class="europe-map__pin" transform={`translate(${pin.x} ${pin.y})`}>
+        <circle class="europe-map__halo" r="28" />
+        <circle class="europe-map__dot" r="11" />
+        {labels && (
+          <text
+            class="europe-map__label"
+            x={pin.labelLeft ? -20 : 20}
+            y="-20"
+            text-anchor={pin.labelLeft ? "end" : "start"}
+          >
+            {pin.name}
+          </text>
+        )}
+      </g>
+    ))
+  }
+</svg>
+
+<style>
+  .europe-map {
+    display: block;
+    width: 100%;
+    height: auto;
+    mask-image:
+      linear-gradient(to right, #000 80%, transparent),
+      linear-gradient(to bottom, #000 88%, transparent);
+    mask-composite: intersect;
+  }
+
+  .europe-map__land {
+    fill: var(--color-surface-raised);
+    opacity: var(--opacity-subtle);
+  }
+
+  .europe-map__eu {
+    fill: var(--color-brand-primary);
+    opacity: var(--opacity-subdued);
+  }
+
+  .europe-map__halo {
+    fill: var(--color-brand-highlight);
+    opacity: var(--opacity-subtle);
+  }
+
+  .europe-map__dot {
+    fill: var(--color-brand-highlight);
+  }
+
+  .europe-map__label {
+    fill: currentColor;
+    font-size: 36px;
+    font-weight: 600;
+    paint-order: stroke;
+    stroke: var(--color-surface-canvas);
+    stroke-width: 10px;
+    stroke-linejoin: round;
+  }
+</style>
