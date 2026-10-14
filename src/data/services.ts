@@ -65,14 +65,6 @@ export const services: ReadonlyArray<Service> = [
 
 export const exceptions: ReadonlyArray<Exception> = [
   {
-    name: "Identity Digital",
-    role: { en: "Registry of the .network domain", nl: "Register van het .network-domein" },
-    impact: {
-      en: "Can suspend luuk.network, wherever the domain is registered.",
-      nl: "Kan luuk.network blokkeren, waar het domein ook geregistreerd is.",
-    },
-  },
-  {
     name: "Cloudflare",
     role: { en: "Network in front of DatoCMS", nl: "Netwerk voor DatoCMS" },
     impact: {
