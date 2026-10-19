@@ -24,7 +24,7 @@ types are fetched from DatoCMS on startup.
 | Command           | Action                                   |
 | :---------------- | :--------------------------------------- |
 | `npm run dev`     | Start the dev server at `localhost:4321` |
-| `npm run build`   | Build the site to `./dist/`              |
+| `npm run build`   | Build the site to `./.oester/output/`    |
 | `npm run preview` | Preview the build locally                |
 | `npm run check`   | Type-check `.ts` and `.astro` files      |
 | `npm run lint`    | Lint, including type-aware rules         |
