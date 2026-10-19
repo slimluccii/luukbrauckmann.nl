@@ -1,6 +1,6 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
-import deploybase from "@deploybase/adapter-astro";
+import oester from "@oester/astro";
 import { generate } from "@graphql-codegen/cli";
 import codegenConfig from "./codegen.config";
 import codegen from "./integrations/codegen";
@@ -19,7 +19,7 @@ const { fonts } = await import("./config/fonts");
 // https://astro.build/config
 export default defineConfig({
   site: "https://luuk.dk",
-  adapter: deploybase(),
+  adapter: oester(),
   integrations: [
     codegen(codegenConfig),
     site(),
