@@ -13,6 +13,7 @@ import { getMenuItems } from "~/datocms/menu";
 import { t, toLocale } from "~/i18n";
 import { imgix_host } from "~/generated/site.json";
 import { allowInlineScript } from "~/utils/allow-inline-script";
+import { socialLinks } from "~/data/contact";
 import jsMarker from "./scripts/js-marker.js?raw";
 
 import "~/generated/tokens.css";
@@ -40,6 +41,13 @@ const xDefault = translations.find((t) => t.locale === i18n?.defaultLocale);
 const { origin, pathname } = Astro.url;
 
 const canonical = `${origin}${pathname}`;
+const person = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Luuk Brauckmann",
+  url: Astro.site?.href,
+  sameAs: socialLinks.map(({ href }) => href),
+};
 
 const menuItems = await getMenuItems(toLocale(locale));
 ---
@@ -60,6 +68,7 @@ const menuItems = await getMenuItems(toLocale(locale));
     <Font cssVariable="--font-source-sans" preload={[{ style: "normal" }]} />
     <Font cssVariable="--font-dash-casual" preload />
     <link rel="canonical" href={canonical} />
+    <script type="application/ld+json" set:html={JSON.stringify(person)} />
     {
       translations.map(({ locale, path }) => (
         <link
