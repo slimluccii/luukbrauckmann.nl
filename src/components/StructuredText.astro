@@ -2,6 +2,7 @@
 import type { ComponentProps } from "astro/types";
 import { StructuredText as DatocmsStructuredText } from "@datocms/astro";
 import Prose from "~/components/Prose.astro";
+import CodeBlock from "~/components/CodeBlock.astro";
 
 type Props = ComponentProps<typeof DatocmsStructuredText>;
 
@@ -20,7 +21,10 @@ const isEmpty =
 {
   !isEmpty && (
     <div class="structured-text">
-      <DatocmsStructuredText {...Astro.props} />
+      <DatocmsStructuredText
+        {...Astro.props}
+        nodeOverrides={{ code: CodeBlock, ...Astro.props.nodeOverrides }}
+      />
     </div>
   )
 }

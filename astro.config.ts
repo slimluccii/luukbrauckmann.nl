@@ -1,3 +1,4 @@
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import oester from "@oester/astro";
@@ -15,6 +16,8 @@ await generate({ ...codegenConfig, silent: true });
 const { default: icons } = await import("./integrations/icons");
 const { default: translations } = await import("./integrations/translations");
 const { fonts } = await import("./config/fonts");
+
+const shikiStub = fileURLToPath(new URL("./config/shiki-stub.ts", import.meta.url));
 
 // https://astro.build/config
 export default defineConfig({
@@ -34,6 +37,14 @@ export default defineConfig({
   prefetch: true,
   markdown: {
     syntaxHighlight: false,
+  },
+  vite: {
+    resolve: {
+      alias: {
+        "@astrojs/internal-helpers/shiki": shikiStub,
+        "shiki/langs": shikiStub,
+      },
+    },
   },
   security,
   fonts,
