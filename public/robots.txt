@@ -3,4 +3,4 @@ User-agent: *
 Content-Signal: search=yes, ai-input=yes, ai-train=no
 Allow: /
 
-Sitemap: https://luuk.dk/sitemap-index.xml
+Sitemap: https://luukbrauckmann.nl/sitemap-index.xml

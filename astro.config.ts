@@ -21,7 +21,7 @@ const shikiStub = fileURLToPath(new URL("./config/shiki-stub.ts", import.meta.ur
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://luuk.dk",
+  site: "https://luukbrauckmann.nl",
   adapter: oester(),
   integrations: [
     codegen(codegenConfig),

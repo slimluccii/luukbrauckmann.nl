@@ -1,6 +1,6 @@
-# luuk.dk
+# luukbrauckmann.nl
 
-Personal website for [luuk.dk](https://luuk.dk), built as a static
+Personal website for [luukbrauckmann.nl](https://luukbrauckmann.nl), built as a static
 site with [Astro](https://astro.build). All content, including translations and
 icons, comes from [DatoCMS](https://www.datocms.com).
 

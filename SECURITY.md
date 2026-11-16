@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-This repository is the source of [luuk.dk](https://luuk.dk). There
+This repository is the source of [luukbrauckmann.nl](https://luukbrauckmann.nl). There
 are no released versions. Only the live site and the `main` branch receive
 security fixes.
 
